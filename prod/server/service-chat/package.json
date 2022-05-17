@@ -1,0 +1,12 @@
+{
+  "name": "service-chat",
+  "version": "1.0.0",
+  "description": "service-chat",
+  "type": "module",
+  "scripts": {
+    "start": "node --inspect=0.0.0.0:9229 --experimental-specifier-resolution=node --loader ts-node/esm  server.ts",
+    "watch": "db-migrate up -e pg && nodemon -L --watch '**' --ext 'ts,json' --exec 'npm start'",
+    "migrate": "db-migrate create -e pg"
+  },
+  "author": "Mateusz Piórowski"
+}
