@@ -1,0 +1,15 @@
+services:
+  service-users:
+    container_name: service-users
+    build: .
+    volumes:
+      - ./@types:/@types
+      - ./server:/server
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+      - POSTGRES=postgresql://postgres:12345@db-users:5432/users
+
+  db-users:
+    container_name: db-users
+    image: postgres:14.3
