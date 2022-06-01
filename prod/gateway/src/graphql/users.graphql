@@ -5,3 +5,12 @@ type User {
   created: String!
   updated: String
 }
+
+type Session {
+  id: ID!
+  userId: ID!
+  user: User!
+  expires: String!
+  created: String!
+  updated: String
+}

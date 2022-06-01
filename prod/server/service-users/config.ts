@@ -7,7 +7,8 @@ export const env = (envVar: string) => {
 };
 
 export const Config = {
-  PORT: env("PORT"),
-  NODE_ENV: env("NODE_ENV"),
-  POSTGRES: env("POSTGRES"),
+  PORT: env('PORT'),
+  NODE_ENV: env('NODE_ENV'),
+  POSTGRES: env('POSTGRES'),
+  USER_SESSION_EXPIRE_IN_HOURS: env('USER_SESSION_EXPIRE_IN_HOURS'),
 };

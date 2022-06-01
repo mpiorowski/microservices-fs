@@ -10,6 +10,8 @@ services:
       - PORT=7000
       - NODE_ENV=development
       - USERS_URI=http://service-users:3000
+      - COOKIE_DOMAIN=localhost
+      - USER_SESSION_EXPIRE_IN_HOURS=24
     ports:
       - 9229:9229
       - 7000:7000
@@ -26,6 +28,7 @@ services:
       - PORT=3000
       - NODE_ENV=development
       - POSTGRES=postgresql://postgres:12345@db-users:5432/users
+      - USER_SESSION_EXPIRE_IN_HOURS=24
     ports:
       - 9300:9229
     command: sh -c "npm run watch --workspace=service-users"

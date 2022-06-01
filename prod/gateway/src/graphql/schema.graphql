@@ -1,9 +1,12 @@
 # import User from 'users.graphql'
+# import Session from 'users.graphql'
 
 type Query {
   users: [User!]!
+  session: Session!
 }
 
 type Mutation {
   createUser(email: String!, password: String!): User!
+  createSession(email: String!, password: String!): Session!
 }

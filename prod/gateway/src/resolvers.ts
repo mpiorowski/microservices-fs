@@ -1,27 +1,62 @@
-import { IResolvers } from "mercurius";
-import { api } from "./api";
-import { Config } from "./config";
+import { IResolvers } from 'mercurius';
+import { Session, User } from '../../@types/users.type';
+import { api } from './api';
+import { Config } from './config';
 
 export const resolvers: IResolvers = {
   Query: {
     users: async () => {
-      const users = await api({
+      const users = await api<User[]>({
         url: `${Config.USERS_URI}/users`,
-        method: "GET",
+        method: 'GET',
         body: null,
       });
       return users;
+    },
+    session: async (_obj, _arg, ctx) => {
+      const sessionId = ctx.reply.request.cookies.sessionId;
+      const session = await api<Session>({
+        url: `${Config.USERS_URI}/sessions/${sessionId}`,
+        method: 'GET',
+        body: null,
+      });
+      return session;
     },
   },
   Mutation: {
     createUser: async (_, args: { email: string; password: string }) => {
       const { email, password } = args;
-      const user = await api({
+      const user = await api<User>({
         url: `${Config.USERS_URI}/users`,
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify({ email, password }),
       });
       return user;
+    },
+    createSession: async (
+      _,
+      args: { email: string; password: string },
+      ctx
+    ) => {
+      const { email, password } = args;
+      const session = await api<Session>({
+        url: `${Config.USERS_URI}/sessions`,
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+      });
+
+      void ctx.reply.setCookie('sessionId', session.id, {
+        path: '/',
+        secure: false, // send cookie over HTTPS only
+        domain: Config.COOKIE_DOMAIN,
+        httpOnly: true,
+        sameSite: true,
+        expires: new Date(
+          new Date().getTime() +
+            Number(Config.USER_SESSION_EXPIRE_IN_HOURS) * 60 * 60 * 1000
+        ),
+      });
+      return session;
     },
   },
 };
