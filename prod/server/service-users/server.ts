@@ -2,27 +2,29 @@ import Fastify from "fastify";
 import pg from "pg";
 import { migrate } from "postgres-migrations";
 import { Config } from "./config";
+import { usersService } from "./services/users.service";
 
-console.info("service users says hi");
+console.info("Users server is running");
 
 // fastify setup
 const app = Fastify({ logger: true });
 
 // error handler
 app.setErrorHandler(function (error, request, reply) {
-  console.error("error", error);
-  console.error("request", request);
-  console.error("reply", reply);
+  app.log.error(error);
+  app.log.error(request);
+  reply.status(409).send(error);
 });
 
 // Declare routes
+usersService(app);
 
 // Run the server!
 const start = async () => {
-  // migration
   const client = new pg.Client(Config.POSTGRES);
-  await client.connect();
   try {
+    // migration
+    await client.connect();
     await migrate({ client }, "./migrations");
     app.log.info(`Migrations ran successfully`);
   } finally {

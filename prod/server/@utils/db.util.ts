@@ -1,10 +1,10 @@
-import { Pool, types } from "pg";
-import { env } from "./env.util";
+import pkg from "pg";
+const { Pool, types } = pkg;
 
 types.setTypeParser(1700, "text", parseFloat);
 
 export async function db<T>(query: string, variables: unknown[]): Promise<T[]> {
-  const pool = new Pool({ connectionString: env("POSTGRES") });
+  const pool = new Pool({ connectionString: process.env.POSTGRES });
   const client = await pool.connect();
   try {
     await client.query("BEGIN");

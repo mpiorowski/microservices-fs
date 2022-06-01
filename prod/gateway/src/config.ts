@@ -5,3 +5,9 @@ export const env = (envVar: string) => {
     return process.env[envVar] as string;
   }
 };
+
+export const Config = {
+  PORT: env("PORT"),
+  NODE_ENV: env("NODE_ENV"),
+  USERS_URI: env("USERS_URI"),
+};

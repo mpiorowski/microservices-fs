@@ -1,9 +1,13 @@
+import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
+import { loadSchemaSync } from "@graphql-tools/load";
 import Fastify from "fastify";
-import pg from "pg";
-import { migrate } from "postgres-migrations";
+import mercurius from "mercurius";
+import path, { join } from "path";
 import { Config } from "./config";
+import { loaders } from "./loaders";
+import { resolvers } from "./resolvers";
 
-console.info("Chat server is running");
+console.info("Gateway server is running");
 
 // fastify setup
 const app = Fastify({ logger: true });
@@ -15,20 +19,20 @@ app.setErrorHandler(function (error, request, reply) {
   app.log.error("reply", reply);
 });
 
-// Declare routes
+const schema = loadSchemaSync(join(path.resolve(), "./src/graphql/*.graphql"), {
+  loaders: [new GraphQLFileLoader()],
+});
+
+// mercurius
+app.register(mercurius, {
+  schema,
+  resolvers,
+  loaders,
+  graphiql: true,
+});
 
 // Run the server!
 const start = async () => {
-  const client = new pg.Client(Config.POSTGRES);
-  try {
-    // migration
-    await client.connect();
-    await migrate({ client }, "./migrations");
-    app.log.info(`Migrations ran successfully`);
-  } finally {
-    await client.end();
-  }
-
   try {
     // fastify server startup
     await app.listen(Config.PORT, "0.0.0.0");

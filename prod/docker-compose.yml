@@ -1,15 +1,62 @@
 services:
+  gateway:
+    container_name: gateway
+    build: .
+    volumes:
+      - ./@types:/@types
+      - ./gateway:/gateway
+    working_dir: /gateway
+    environment:
+      - PORT=7000
+      - NODE_ENV=development
+      - USERS_URI=http://service-users:3000
+    ports:
+      - 9229:9229
+      - 7000:7000
+    command: sh -c "npm run watch"
+
   service-users:
     container_name: service-users
     build: .
     volumes:
       - ./@types:/@types
       - ./server:/server
+    working_dir: /server
     environment:
       - PORT=3000
       - NODE_ENV=development
       - POSTGRES=postgresql://postgres:12345@db-users:5432/users
+    ports:
+      - 9300:9229
+    command: sh -c "npm run watch --workspace=service-users"
 
   db-users:
     container_name: db-users
     image: postgres:14.3
+    environment:
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=users
+
+  service-chat:
+    container_name: service-chat
+    build: .
+    volumes:
+      - ./@types:/@types
+      - ./server:/server
+    working_dir: /server
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+      - POSTGRES=postgresql://postgres:12345@db-chat:5432/chat
+    ports:
+      - 9301:9229
+    command: sh -c "npm run watch --workspace=service-chat"
+
+  db-chat:
+    container_name: db-chat
+    image: postgres:14.3
+    environment:
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=chat

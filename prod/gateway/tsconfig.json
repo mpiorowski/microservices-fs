@@ -31,5 +31,5 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
-  "include": ["./@utils", "../@types"]
+  "include": ["../@types", "**/*.ts"]
 }
