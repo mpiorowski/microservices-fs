@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "type": "module",
+  "workspaces": [
+    "service-users/"
+  ],
+  "author": "Mateusz Piórowski",
+  "dependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/pg": "^8.6.5",
+    "bcryptjs": "^2.4.3",
+    "dayjs": "^1.11.2",
+    "esm": "^3.2.25",
+    "fastify": "^3.29.0",
+    "nodemon": "^2.0.16",
+    "pg": "^8.7.3",
+    "postgres-migrations": "^5.3.0",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
+  }
+}
