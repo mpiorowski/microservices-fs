@@ -1,7 +1,6 @@
 {
-  "name": "service-chat",
+  "name": "service-messages",
   "version": "1.0.0",
-  "description": "service-chat",
   "type": "module",
   "scripts": {
     "start": "node --inspect=0.0.0.0:9229 --experimental-specifier-resolution=node --loader ts-node/esm  server.ts",

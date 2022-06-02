@@ -1,6 +1,7 @@
 import { IResolvers } from 'mercurius';
 import { Session, User } from '../../@types/users.type';
 import { api } from './api';
+import { authorization } from './auth';
 import { Config } from './config';
 
 export const resolvers: IResolvers = {
@@ -21,6 +22,15 @@ export const resolvers: IResolvers = {
         body: null,
       });
       return session;
+    },
+    messages: async (_obj, _arg, ctx) => {
+      await authorization(ctx.reply);
+      const messages = await api<Session>({
+        url: `${Config.MESSAGES_URI}/messages`,
+        method: 'GET',
+        body: null,
+      });
+      return messages;
     },
   },
   Mutation: {
@@ -57,6 +67,19 @@ export const resolvers: IResolvers = {
         ),
       });
       return session;
+    },
+    createMessage: async (
+      _,
+      args: { input: { text1: string; text2: string; text3: string } },
+      ctx
+    ) => {
+      const session = await authorization(ctx.reply);
+      const user = await api<User>({
+        url: `${Config.MESSAGES_URI}/messages`,
+        method: 'POST',
+        body: JSON.stringify({ ...args.input, userId: session.userId }),
+      });
+      return user;
     },
   },
 };

@@ -10,6 +10,7 @@ services:
       - PORT=7000
       - NODE_ENV=development
       - USERS_URI=http://service-users:3000
+      - MESSAGES_URI=http://service-messages:3000
       - COOKIE_DOMAIN=localhost
       - USER_SESSION_EXPIRE_IN_HOURS=24
     ports:
@@ -41,8 +42,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=users
 
-  service-chat:
-    container_name: service-chat
+  service-messages:
+    container_name: service-messages
     build: .
     volumes:
       - ./@types:/@types
@@ -51,15 +52,15 @@ services:
     environment:
       - PORT=3000
       - NODE_ENV=development
-      - POSTGRES=postgresql://postgres:12345@db-chat:5432/chat
+      - POSTGRES=postgresql://postgres:12345@db-messages:5432/messages
     ports:
       - 9301:9229
-    command: sh -c "npm run watch --workspace=service-chat"
+    command: sh -c "npm run watch --workspace=service-messages"
 
-  db-chat:
-    container_name: db-chat
+  db-messages:
+    container_name: db-messages
     image: postgres:14.3
     environment:
       - POSTGRES_PASSWORD=12345
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=chat
+      - POSTGRES_DB=messages

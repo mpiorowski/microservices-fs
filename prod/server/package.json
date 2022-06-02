@@ -1,11 +1,10 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "server",
   "type": "module",
   "workspaces": [
     "service-users/",
-    "service-chat/"
+    "service-messages/"
   ],
   "author": "Mateusz Piórowski",
   "dependencies": {

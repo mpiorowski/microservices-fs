@@ -6,11 +6,6 @@ export const selectAllUsers = async () => {
   return users;
 };
 
-export const selectUserById = async (id: string) => {
-  const user = await db<User>(`SELECT * FROM users WHERE id = $1`, [id]);
-  return user;
-};
-
 export const selectUserByEmail = async (email: string) => {
   const user = await db<User>(`SELECT * FROM users WHERE email = $1`, [email]);
   return user;

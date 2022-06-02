@@ -1,7 +1,6 @@
 {
   "name": "service-users",
   "version": "1.0.0",
-  "description": "service-users",
   "type": "module",
   "scripts": {
     "start": "node --inspect=0.0.0.0:9229 --experimental-specifier-resolution=node --loader ts-node/esm  server.ts",

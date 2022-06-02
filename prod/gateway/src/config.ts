@@ -10,6 +10,7 @@ export const Config = {
   PORT: env('PORT'),
   NODE_ENV: env('NODE_ENV'),
   USERS_URI: env('USERS_URI'),
+  MESSAGES_URI: env('MESSAGES_URI'),
   COOKIE_DOMAIN: env('COOKIE_DOMAIN'),
   USER_SESSION_EXPIRE_IN_HOURS: env('USER_SESSION_EXPIRE_IN_HOURS'),
 };

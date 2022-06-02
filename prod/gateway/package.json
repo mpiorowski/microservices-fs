@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node --inspect=0.0.0.0:9229 --experimental-specifier-resolution=node --loader ts-node/esm  src/server.ts",
-    "watch": "nodemon -L --watch '**' --ext 'ts,json' --exec 'npm start'"
+    "watch": "nodemon -L --watch '**' --ext 'ts,json,graphql' --exec 'npm start'"
   },
   "author": "Mateusz Piórowski",
   "dependencies": {
