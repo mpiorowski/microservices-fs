@@ -2,8 +2,11 @@ import fastifyCookie from '@fastify/cookie';
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { loadSchemaSync } from '@graphql-tools/load';
 import Fastify from 'fastify';
+import mercurius from 'mercurius';
 import path, { join } from 'path';
 import { Config } from './config';
+import { loaders } from './loaders';
+import { resolvers } from './resolvers';
 
 console.info('Gateway server is running');
 
@@ -20,6 +23,13 @@ app.setErrorHandler(function (error, request, reply) {
 
 const schema = loadSchemaSync(join(path.resolve(), './src/graphql/*.graphql'), {
   loaders: [new GraphQLFileLoader()],
+});
+
+app.register(mercurius, {
+  schema,
+  resolvers,
+  loaders,
+  graphiql: true,
 });
 
 // Run the server!

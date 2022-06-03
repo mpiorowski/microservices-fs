@@ -2,6 +2,8 @@ import Fastify from 'fastify';
 import pg from 'pg';
 import { migrate } from 'postgres-migrations';
 import { Config } from './config';
+import { sessionsService } from './services/sessions.service';
+import { usersService } from './services/users.service';
 
 console.info('Users server is running');
 
@@ -16,6 +18,8 @@ app.setErrorHandler(function (error, request, reply) {
 });
 
 // Declare routes
+usersService(app);
+sessionsService(app);
 
 // Run the server!
 const start = async () => {

@@ -1,0 +1,41 @@
+services:
+  gateway:
+    container_name: gateway
+    build: .
+    volumes:
+      - ./gateway:/gateway
+      - ./@types:/@types
+    working_dir: /gateway
+    command: sh -c "npm run watch"
+    environment:
+      - PORT=7000
+      - NODE_ENV=development
+      - USER_SESSION_EXPIRE_IN_HOURS=24
+      - USERS_URI=http://service-users:3000
+      - MESSAGES_URI=http://service-messages:3000
+      - COOKIE_DOMAIN=localhost
+    ports:
+      - '7000:7000'
+
+  service-users:
+    container_name: service-users
+    build: .
+    volumes:
+      - ./server:/server
+      - ./@types:/@types
+    working_dir: /server
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+      - USER_SESSION_EXPIRE_IN_HOURS=24
+      - POSTGRES=postgresql://postgres:12345@db-users:5432/users
+    command: sh -c "npm run watch --workspace=service-users"
+
+  db-users:
+    container_name: db-users
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=users
+      - POSTGRES_PORT=5432

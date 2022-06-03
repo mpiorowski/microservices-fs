@@ -53,7 +53,9 @@ export const sessionsService = (app: FastifyInstance) => {
     const expire = dayjs()
       .add(Number(Config.USER_SESSION_EXPIRE_IN_HOURS), 'hour')
       .toDate();
+
     const session = await insertSession(user[0].id, expire);
+
     if (!session[0]) {
       return reply.status(404).send(Error('Wrong data'));
     }
