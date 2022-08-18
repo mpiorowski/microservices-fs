@@ -4,7 +4,7 @@ import { Config } from './config';
 
 export const resolvers: IResolvers = {
   Query: {
-    users: async (_, _args, _ctx) => {
+    users: async (_, _args, ctx) => {
       const users = await api({
         url: `${Config.USERS_URI}/users`,
         method: 'GET',
@@ -22,6 +22,19 @@ export const resolvers: IResolvers = {
         body: JSON.stringify(body),
       });
       return user;
+    },
+    insertSession: async (
+      _,
+      args: { email: string; password: string },
+      _ctx
+    ) => {
+      const body = args;
+      const session = await api({
+        url: `${Config.USERS_URI}/sessions`,
+        method: 'POST',
+        body: JSON.stringify(body),
+      });
+      return session;
     },
   },
 };

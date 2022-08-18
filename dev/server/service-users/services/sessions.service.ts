@@ -12,6 +12,9 @@ export const sessionsService = (app: FastifyInstance) => {
     if (!sessions[0]) {
       throw new Error('Session not found');
     }
+    if (sessions[0].expires < new Date()) {
+      throw new Error('Session expired');
+    }
     reply.send(sessions[0]);
   });
 
