@@ -4,8 +4,8 @@ import { api } from './api';
 import { Config } from './config';
 
 export const authorize = async (ctx: MercuriusContext) => {
-  const sessionId = ctx.reply.request.cookies.sessionId;
   try {
+    const sessionId = ctx.reply.request.cookies.sessionId;
     if (!sessionId) {
       throw Error();
     }

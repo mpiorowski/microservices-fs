@@ -1,10 +1,12 @@
 import { IResolvers } from 'mercurius';
 import { api } from './api';
+import { authorize } from './auth';
 import { Config } from './config';
 
 export const resolvers: IResolvers = {
   Query: {
     users: async (_, _args, ctx) => {
+      await authorize(ctx);
       const users = await api({
         url: `${Config.USERS_URI}/users`,
         method: 'GET',
@@ -14,7 +16,8 @@ export const resolvers: IResolvers = {
     },
   },
   Mutation: {
-    insertUser: async (_, args, _ctx) => {
+    insertUser: async (_, args, ctx) => {
+      await authorize(ctx);
       const body = args as { email: string; password: string };
       const user = await api({
         url: `${Config.USERS_URI}/users`,
