@@ -1,12 +1,12 @@
 type Query {
-  users: [UserGql!]
+  users: [User!]
 }
 
 type Mutation {
-  insertUser(email: String!, password: String!): UserGql!
+  insertUser(email: String!, password: String!): User!
 }
 
-type UserGql {
+type User {
   id: ID!
   created: String!
   updated: String
