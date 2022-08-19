@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "workspaces": [
-    "service-users/"
+    "service-users/",
+    "service-messages/"
   ],
   "author": "Mateusz Piórowski",
   "dependencies": {

@@ -39,3 +39,25 @@ services:
       - POSTGRES_PASSWORD=12345
       - POSTGRES_DB=users
       - POSTGRES_PORT=5432
+
+  service-messages:
+    container_name: service-messages
+    build: .
+    volumes:
+      - ./server:/server
+      - ./@types:/@types
+    working_dir: /server
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+      - POSTGRES=postgresql://postgres:12345@db-messages:5432/messages
+    command: sh -c "npm run watch --workspace=service-messages"
+
+  db-messages:
+    container_name: db-messages
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=messages
+      - POSTGRES_PORT=5432

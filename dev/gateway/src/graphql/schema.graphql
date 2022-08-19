@@ -1,10 +1,16 @@
 type Query {
   users: [User!]
+
+  messages: [Message!]
 }
 
 type Mutation {
   insertUser(email: String!, password: String!): User!
   insertSession(email: String!, password: String!): Session!
+
+  insertMessasge(text1: String, text2: String, text3: String): Message!
+
+  logout: Boolean!
 }
 
 type User {
@@ -22,4 +28,15 @@ type Session {
   expires: String!
   created: String!
   updated: String
+}
+
+type Message {
+  id: ID!
+  created: String!
+  updated: String
+  userId: ID!
+  user: User!
+  text1: String
+  text2: String
+  text3: String
 }
